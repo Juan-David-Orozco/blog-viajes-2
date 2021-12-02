@@ -177,6 +177,19 @@ router.get('/publicacion/:id', (peticion, respuesta) => {
   })
 })
 
+router.get('/autores', (peticion, respuesta) => {
+
+  pool.getConnection((err, connection) => {
+
+    const consulta = `SELECT * FROM autores ORDER BY id DESC`
+    connection.query(consulta, (error, filas, campos) => {
+      respuesta.render('autores', { autores: filas })
+    })
+    connection.release()
+
+  })
+  
+})
 
 
 module.exports = router
