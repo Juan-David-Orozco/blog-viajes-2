@@ -32,6 +32,11 @@
             <% } %>
             <%=autor.pseudonimo%>
           </h3>
+          <ul>
+            <% autor.publicaciones.forEach(publicacion => { %>
+              <li><a href="/publicacion/<%=publicacion.id%>"><%=publicacion.titulo%></a></li>
+            <% }) %>
+          </ul>
         </div>
       </div>
     <% }) %>
