@@ -17,3 +17,7 @@ form.buscador{
 .centrado{
   text-align: center
 }
+
+img.avatar{
+  max-height: 15px
+}
