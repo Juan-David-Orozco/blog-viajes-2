@@ -2,6 +2,26 @@ const express = require('express')
 const router = express.Router()
 const mysql = require('mysql2')
 var path = require('path')
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'judorozcocl29@gmail.com',
+    pass: 'dinastia_7'
+  }
+})
+
+function enviarCorreoBienvenida(email, nombre){
+  const opciones = {
+    from: 'judorozcocl29@gmail.com',
+    to: email,
+    subject: 'Bienvenido al blog de viajes',
+    text: `Hola ${nombre}`
+  }
+  transporter.sendMail(opciones, (error, info) => {
+  });
+}
 
 var pool = mysql.createPool({
   connectionLimit: 20,
@@ -110,6 +130,7 @@ router.post('/procesar_registro', (peticion, respuesta) => {
                     WHERE id = ${connection.escape(id)}
                   `
                   connection.query(consultaAvatar, (error, filas, campos) => {
+                    enviarCorreoBienvenida(email, pseudonimo)
                     peticion.flash('mensaje', 'Usuario registrado con avatar')
                     respuesta.redirect('/registro')
                   })
@@ -118,6 +139,7 @@ router.post('/procesar_registro', (peticion, respuesta) => {
 
               }
               else{
+                enviarCorreoBienvenida(email, pseudonimo)
                 peticion.flash('mensaje', 'Usuario registrado')
                 respuesta.redirect('/registro')
               }
